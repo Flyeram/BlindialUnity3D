@@ -5,6 +5,8 @@ using System.Collections;
 public class Squares : MonoBehaviour {
 
 	private GameController gameController;
+	[SerializeField]
+	private Vector2 squarePosition;
 
 	public void ClickOnSquare(int type)
 	{
