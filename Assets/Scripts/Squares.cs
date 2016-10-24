@@ -13,8 +13,10 @@ public class Squares : MonoBehaviour {
 
 	void DisplayPlayer()
 	{
-		Debug.Log("WIP");
-		Debug.Log(this.transform.position.x);
+		float x = this.GetComponent<RectTransform>().anchorMin.x;
+		float y = this.GetComponent<RectTransform>().anchorMin.y;
+		gameController.GetCurrentPlayer().PlayerSetPosition(x, y);
+		gameController.ChangeTurn();
 	}
 
 	public void SetGameController(GameController controller)

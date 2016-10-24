@@ -16,10 +16,12 @@ public class Player
 	private GameObject playerGameObject;
 	private RectTransform playerRectTransform;
 	private string playerName;
+	private Vector2 playerOffset;
 
-	public Player(string Name)
+	public Player(string Name, Vector2 offset)
 	{
 		playerName = Name;
+		playerOffset = offset;
 	}
 
 	//Create a game object with an image, canva renderer and Rect Transform.
@@ -33,12 +35,14 @@ public class Player
 		playerImg.sprite = (Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
 		playerRectTransform.offsetMax = new Vector2(0, 0);
 		playerRectTransform.offsetMin = new Vector2(0, 0);
-		PlayerSetPosition(0.5f, 0.5f);
+		PlayerSetPosition(0.4744755f, 0.4536363f);
 	}
 
 	public void PlayerSetPosition(float x, float y)
 	{
-		playerRectTransform.anchorMin = new Vector2(x, y);
-		playerRectTransform.anchorMax = new Vector2(x + 0.0171f, y + 0.0303f);
+		float offx = x + playerOffset.x;
+		float offy = y + playerOffset.y;
+		playerRectTransform.anchorMin = new Vector2(offx, offy);
+		playerRectTransform.anchorMax = new Vector2(offx + 0.0171f, offy + 0.0303f);
 	}
 }
