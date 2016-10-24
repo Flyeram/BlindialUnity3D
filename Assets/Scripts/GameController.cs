@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour {
 	private GameObject canvaRef;
 	[SerializeField]
 	private GameObject playerGameObject;
+	[SerializeField]
+	private Dice diceScript;
 
 	private Player[] playerList;
 	private int turns;
@@ -42,13 +44,20 @@ public class GameController : MonoBehaviour {
 	/*
 	 * Function to manage the flow of the game
 	 */
+	
+	public void PlayTurn()
+	{
+		int diceValue;
+		diceValue = diceScript.DiceRoll();
+		ChangeTurn();
+	}
 
 	public Player GetCurrentPlayer()
 	{
 		return playerList[turns];
 	}
 
-	public void ChangeTurn()
+	void ChangeTurn()
 	{
 		if (turns < 3)
 			turns++;
@@ -56,13 +65,15 @@ public class GameController : MonoBehaviour {
 			turns = 0;
 	}
 
+	/*
+	 * Tools function
+	 */
+
 	void SetSquareInteractable(bool toggle)
 	{
 		for (int i = 0; i < buttonList.Length; i++)
 		{
 			buttonList[i].GetComponent<Button>().interactable = toggle;
-			//Debug.Log(buttonList[i].GetComponent<RectTransform>().anchorMin.x.ToString("0.00"));
-			Debug.Log(buttonList[i].GetComponent<RectTransform>().anchorMin.y.ToString("0.00"));
 		}
 	}
 

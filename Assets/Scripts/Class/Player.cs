@@ -17,14 +17,16 @@ public class Player
 	private RectTransform playerRectTransform;
 	private string playerName;
 	private Vector2 playerOffset;
+	public Vector2 playerPosition;
 
 	public Player(string Name, Vector2 offset)
 	{
 		playerName = Name;
 		playerOffset = offset;
+		playerPosition = new Vector2(4, 4);
 	}
 
-	//Create a game object with an image, canva renderer and Rect Transform.
+	//Instantiate a GameObject player with the right image and set his DisplayPosition to default
 	public void PlayerSetImage(GameObject gameObject, string imagePath, GameObject Canva)
 	{
 		string path = "Assets/Resources/Images/Players/" + imagePath + ".png";
@@ -35,14 +37,16 @@ public class Player
 		playerImg.sprite = (Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
 		playerRectTransform.offsetMax = new Vector2(0, 0);
 		playerRectTransform.offsetMin = new Vector2(0, 0);
-		PlayerSetPosition(0.4744755f, 0.4536363f);
+		PlayerSetDisplayPosition(0.4744755f, 0.4536363f);
 	}
 
-	public void PlayerSetPosition(float x, float y)
+	public void PlayerSetDisplayPosition(float x, float y)
 	{
 		float offx = x + playerOffset.x;
 		float offy = y + playerOffset.y;
 		playerRectTransform.anchorMin = new Vector2(offx, offy);
 		playerRectTransform.anchorMax = new Vector2(offx + 0.0171f, offy + 0.0303f);
 	}
+
+
 }

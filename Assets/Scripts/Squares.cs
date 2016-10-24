@@ -11,18 +11,23 @@ public class Squares : MonoBehaviour {
 	public void ClickOnSquare(int type)
 	{
 		DisplayPlayer();
+		gameController.PlayTurn();
 	}
 
 	void DisplayPlayer()
 	{
 		float x = this.GetComponent<RectTransform>().anchorMin.x;
 		float y = this.GetComponent<RectTransform>().anchorMin.y;
-		gameController.GetCurrentPlayer().PlayerSetPosition(x, y);
-		gameController.ChangeTurn();
+		gameController.GetCurrentPlayer().PlayerSetDisplayPosition(x, y);
 	}
 
 	public void SetGameController(GameController controller)
 	{
 		gameController = controller;
+	}
+
+	public Vector2 GetSquarePosition()
+	{
+		return squarePosition;
 	}
 }
