@@ -112,9 +112,9 @@ public class GameController : MonoBehaviour {
 	{
 		int diceValue;
 
-		//SetSquareInteractable(false);
+		SetSquareInteractable(false);
 		diceValue = diceScript.DiceRoll();
-		//CheckSquarePossible(diceValue);
+		EnableSquarePossible(diceValue);
 	}
 
 	public Player GetCurrentPlayer()
@@ -130,52 +130,60 @@ public class GameController : MonoBehaviour {
 			turns = 0;
 	}
 
-	//void CheckSquarePossible(int diceValue)
-	//{
-	//	Vector2 position = GetCurrentPlayer().playerPosition;
+	void EnableSquarePossible(int diceValue)
+	{
+		Vector2 position = GetCurrentPlayer().playerPosition;
+		int yOffset;
+		int ypos;
+		int yneg;
+		int x;
 
-	//	//We check from x = -diceValue to x = diceValue
-	//	for (int i = -diceValue; i < (diceValue + 1); i++)
-	//	{
-	//		//We browse all the squares to see if one has a matching position
-	//		for (int j = 0; j < buttonList.Length; j++)
-	//		{
-	//			Vector2 squarePosition = buttonList[j].GetComponent<Squares>().GetSquarePosition();
-	//			/* this offset is here to check squares that are not on the same y axis
-	//			 * Exemple : if the player position is (4, 4) and the dice rolls 3
-	//			 * x = -3, so offset = 0 (3 - abs(-3)), so we check is a square is at [1, 4] ((4 - 3, 4 - offset) == (4 - 3, 4 + offset))
-	//			 * x = -2, so offset = 1 (3 - abs(-2)), so we check is a square is either at [2, 3] (4 - 2, 4 - offset) or [2, 5] (4 - 2, 4 + offset)
-	//			 */
-	//			int yOffset = diceValue - Mathf.Abs(i);
-	//			if (squarePosition == new Vector2(position.x + i, position.y - yOffset) || squarePosition == new Vector2(position.x + i, position.y + yOffset))
-	//			{
-	//				//if the dice value equal 4 we have to remove the squares that can be accessed by using non existing squares
-	//				if (diceValue == 4)
-	//				{
-	//					// If the square is on the same x axis
-	//					if (i == -4 || i == 4)
-	//					{
-	//						// if there is a square on the right AND the left of the player the square is validated, otherwise it's a cheat square
-	//						if (IsASquareAtPos(new Vector2(position.x - 1, position.y)) && IsASquareAtPos(new Vector2(position.x + 1, position.y)))
-	//							buttonList[j].GetComponent<Button>().interactable = true;
-	//					}
-	//					// If the square is on the same y axis
-	//					else if (i == 0)
-	//					{
-	//						// if there is a square on the top AND the bottom of the player the square is validated, otherwise it's a cheat square
-	//						if (IsASquareAtPos(new Vector2(position.x, position.y - 1)) && IsASquareAtPos(new Vector2(position.x, position.y + 1)))
-	//							buttonList[j].GetComponent<Button>().interactable = true;
-	//					}
-	//					else
-	//						buttonList[j].GetComponent<Button>().interactable = true;
-	//				}
-	//				else
-	//					buttonList[j].GetComponent<Button>().interactable = true;
-	//			}
-	//		}
-	//	}
-	//}
-
+		//We check from x = -diceValue to x = diceValue
+		for (int i = -diceValue; i < (diceValue + 1); i++)
+		{
+			/* this offset is here to check squares that are not on the same y axis
+			 * Exemple : if the player position is (4, 4) and the dice rolls 3
+			 * x = -3, so offset = 0 (3 - abs(-3)), so we check is a square is at [1, 4] ((4 - 3, 4 - offset) == (4 - 3, 4 + offset))
+			 * x = -2, so offset = 1 (3 - abs(-2)), so we check is a square is either at [2, 3] (4 - 2, 4 - offset) or [2, 5] (4 - 2, 4 + offset)
+			 */
+			yOffset = diceValue - Mathf.Abs(i);
+			ypos = (int)(position.y + yOffset);
+			yneg = (int)(position.y - yOffset);
+			x = (int)(position.x + i);
+			// We check is a square is not reachable by using invisible Square. 
+			// We check if there is a Square on the left of the player to decide if he can go 4 on the left (Same for other directions)
+			if (diceValue == 4)
+			{
+				//Left
+				if (i == -4)
+				{
+					if (IIAR((int)position.x - 1) && IIAR(ypos) && IIAR(x) && buttonList[(int)position.y][(int)position.x - 1].GetComponent<Squares>().IsNotEmpty())
+						buttonList[ypos][x].GetComponent<Button>().interactable = true;
+				}
+				//Right
+				else if (i == 4)
+				{
+					if (IIAR((int)position.x + 1) && IIAR(ypos) && IIAR(x) && buttonList[(int)position.y][(int)position.x + 1].GetComponent<Squares>().IsNotEmpty())
+						buttonList[ypos][x].GetComponent<Button>().interactable = true;
+				}
+				else if (i == 0)
+				{
+					//Down
+					if (IIAR((int)position.y + 1) && IIAR(ypos) && IIAR(x) && buttonList[(int)position.y + 1][(int)position.x].GetComponent<Squares>().IsNotEmpty())
+						buttonList[ypos][x].GetComponent<Button>().interactable = true;
+					//Up
+					if (IIAR((int)position.y - 1) && IIAR(yneg) && IIAR(x) && buttonList[(int)position.y - 1][(int)position.x].GetComponent<Squares>().IsNotEmpty())
+						buttonList[yneg][x].GetComponent<Button>().interactable = true;
+				}
+				else
+					CheckSquares(ypos, yneg, x);
+			}
+			else
+			{
+				CheckSquares(ypos, yneg, x);
+			}
+		}
+	}
 	/*
 	 * Tools function
 	 */
@@ -187,6 +195,25 @@ public class GameController : MonoBehaviour {
 			for (int j = 0; j < 9; j++)
 				buttonList[i][j].GetComponent<Button>().interactable = toggle;
 		}
+	}
+
+	bool IIAR(int value)
+	{
+		//Is In Array Range
+		if (value >= 0 && value <= 8)
+			return true;
+		return false;
+	}
+
+	void CheckSquares(int ypos, int yneg, int x)
+	{
+		if (IIAR(x))
+		{
+			if (IIAR(ypos) && buttonList[ypos][x].GetComponent<Squares>().IsNotEmpty())
+				buttonList[ypos][x].GetComponent<Button>().interactable = true;
+			if (IIAR(yneg) && buttonList[yneg][x].GetComponent<Squares>().IsNotEmpty())
+				buttonList[yneg][x].GetComponent<Button>().interactable = true;
+		}			
 	}
 
 

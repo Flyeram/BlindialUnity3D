@@ -13,6 +13,7 @@ public class Squares : MonoBehaviour {
 		DisplayPlayer();
 		gameController.GetCurrentPlayer().playerPosition = squarePosition;
 		gameController.ChangeTurn();
+		gameController.PlayTurn();
 	}
 
 	void DisplayPlayer()
@@ -45,5 +46,12 @@ public class Squares : MonoBehaviour {
 	public int GetSquareType()
 	{
 		return type;
+	}
+
+	public bool IsNotEmpty()
+	{
+		if (type == 0)
+			return false;
+		return true;
 	}
 }
