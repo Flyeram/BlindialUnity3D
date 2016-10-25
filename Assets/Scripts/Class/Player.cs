@@ -9,7 +9,10 @@ public class Player
 	/// Attributes :
 	/// The image of the player
 	/// The GameObject of the player
+	/// The RectTransform of the player
 	/// The name of the player
+	/// The offset to display with
+	/// The player Square position
 	/// </summary>
 
 	private Image playerImg;
@@ -40,6 +43,7 @@ public class Player
 		PlayerSetDisplayPosition(0.4744755f, 0.4536363f);
 	}
 
+	//Display the player's image at the position given (with the player's offset)
 	public void PlayerSetDisplayPosition(float x, float y)
 	{
 		float offx = x + playerOffset.x;

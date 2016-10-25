@@ -11,6 +11,8 @@ public class Squares : MonoBehaviour {
 	public void ClickOnSquare(int type)
 	{
 		DisplayPlayer();
+		gameController.GetCurrentPlayer().playerPosition = squarePosition;
+		gameController.ChangeTurn();
 		gameController.PlayTurn();
 	}
 

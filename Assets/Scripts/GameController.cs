@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour {
 		playerList = new Player[4];
 		CreatePlayerList();
 		SetPlayer();
-		SetSquareInteractable(true);
+		PlayTurn();
 	}
 
 	void SetControllerOnButtons()
@@ -48,8 +48,10 @@ public class GameController : MonoBehaviour {
 	public void PlayTurn()
 	{
 		int diceValue;
+
+		SetSquareInteractable(false);
 		diceValue = diceScript.DiceRoll();
-		ChangeTurn();
+		CheckSquarePossible(diceValue);
 	}
 
 	public Player GetCurrentPlayer()
@@ -57,12 +59,30 @@ public class GameController : MonoBehaviour {
 		return playerList[turns];
 	}
 
-	void ChangeTurn()
+	public void ChangeTurn()
 	{
 		if (turns < 3)
 			turns++;
 		else
 			turns = 0;
+	}
+
+	void CheckSquarePossible(int diceValue)
+	{
+		Vector2 position = GetCurrentPlayer().playerPosition;
+
+		for (int i = -diceValue; i < (diceValue + 1); i++)
+		{
+			for (int j = 0; j < buttonList.Length; j++)
+			{
+				Vector2 squarePosition = buttonList[j].GetComponent<Squares>().GetSquarePosition();
+				int xOffset = diceValue - Mathf.Abs(i);
+				if (squarePosition == new Vector2(position.x - xOffset, position.y + i) || squarePosition == new Vector2(position.x + xOffset, position.y + i))
+				{
+					buttonList[j].GetComponent<Button>().interactable = true;
+				}
+			}
+		}
 	}
 
 	/*
