@@ -5,15 +5,14 @@ using System.Collections;
 public class Squares : MonoBehaviour {
 
 	private GameController gameController;
-	[SerializeField]
 	private Vector2 squarePosition;
+	private int type;
 
 	public void ClickOnSquare(int type)
 	{
 		DisplayPlayer();
 		gameController.GetCurrentPlayer().playerPosition = squarePosition;
 		gameController.ChangeTurn();
-		gameController.PlayTurn();
 	}
 
 	void DisplayPlayer()
@@ -28,8 +27,23 @@ public class Squares : MonoBehaviour {
 		gameController = controller;
 	}
 
+	public void SetSquarePosition(Vector2 pos)
+	{
+		squarePosition = pos;
+	}
+
 	public Vector2 GetSquarePosition()
 	{
 		return squarePosition;
+	}
+
+	public void SetSquareType(int number)
+	{
+		type = number;
+	}
+
+	public int GetSquareType()
+	{
+		return type;
 	}
 }

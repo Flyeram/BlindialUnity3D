@@ -30,17 +30,17 @@ public class Player
 	}
 
 	//Instantiate a GameObject player with the right image and set his DisplayPosition to default
-	public void PlayerSetImage(GameObject gameObject, string imagePath, GameObject Canva)
+	public void PlayerSetImage(GameObject gameObject, string imagePath, GameObject gameboard)
 	{
 		string path = "Assets/Resources/Images/Players/" + imagePath + ".png";
 		playerGameObject = gameObject;
 		playerImg = playerGameObject.GetComponent<Image>();
 		playerRectTransform = playerGameObject.GetComponent<RectTransform>();
-		playerGameObject.transform.SetParent(Canva.transform);
+		playerGameObject.transform.SetParent(gameboard.transform);
 		playerImg.sprite = (Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
 		playerRectTransform.offsetMax = new Vector2(0, 0);
 		playerRectTransform.offsetMin = new Vector2(0, 0);
-		PlayerSetDisplayPosition(0.4744755f, 0.4536363f);
+		PlayerSetDisplayPosition(0.44999f, 0.44999f);
 	}
 
 	//Display the player's image at the position given (with the player's offset)
@@ -49,7 +49,7 @@ public class Player
 		float offx = x + playerOffset.x;
 		float offy = y + playerOffset.y;
 		playerRectTransform.anchorMin = new Vector2(offx, offy);
-		playerRectTransform.anchorMax = new Vector2(offx + 0.0171f, offy + 0.0303f);
+		playerRectTransform.anchorMax = new Vector2(offx + 0.0333f, offy + 0.0333f);
 	}
 
 
