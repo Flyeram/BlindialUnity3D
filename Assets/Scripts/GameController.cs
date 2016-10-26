@@ -97,7 +97,7 @@ public class GameController : MonoBehaviour {
 				transform.anchorMax = new Vector2(startOffset + squareSize + (squareSize + spaceSize) * j, startOffset + squareSize + (squareSize + spaceSize) * (8 - i));
 				buttonList[i][j].GetComponent<Squares>().SetSquarePosition(new Vector2(j, i));
 				buttonList[i][j].GetComponent<Squares>().SetSquareType(squareType[i * 9 + j]);
-				buttonList[i][j].GetComponent<Image>().sprite = (Sprite)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Resources/Images/Squares/Square" + squareType[i * 9 + j].ToString() + ".png", typeof(Sprite));
+				buttonList[i][j].GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Squares/Square" + squareType[i * 9 + j].ToString());
 			}
 		}
 	}

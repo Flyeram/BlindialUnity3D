@@ -10,8 +10,8 @@ public class Dice : MonoBehaviour {
 		string path;
 
 		value = (int) Random.Range(1, 5);
-		path = "Assets/Resources/Images/Dices/Dice" + value.ToString() + ".png";
-		this.GetComponent<Image>().sprite = (Sprite)UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
+		path = "Images/Dices/Dice" + value.ToString();
+		this.GetComponent<Image>().sprite = Resources.Load<Sprite>(path);
 		return value;
 	}
 }

@@ -32,12 +32,12 @@ public class Player
 	//Instantiate a GameObject player with the right image and set his DisplayPosition to default
 	public void PlayerSetImage(GameObject gameObject, string imagePath, GameObject gameboard)
 	{
-		string path = "Assets/Resources/Images/Players/" + imagePath + ".png";
+		string path = "Images/Players/" + imagePath;
 		playerGameObject = gameObject;
 		playerImg = playerGameObject.GetComponent<Image>();
 		playerRectTransform = playerGameObject.GetComponent<RectTransform>();
 		playerGameObject.transform.SetParent(gameboard.transform);
-		playerImg.sprite = (Sprite) UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
+		playerImg.sprite = Resources.Load<Sprite>(path);
 		playerRectTransform.offsetMax = new Vector2(0, 0);
 		playerRectTransform.offsetMin = new Vector2(0, 0);
 		PlayerSetDisplayPosition(0.44999f, 0.44999f);
